@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= name %></title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.22/dist/css/uikit.min.css"/>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        #overlay {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: calc(100% - 40px);
+            max-width: 400px;
+            max-height: calc(100% - 40px);
+            text-align: end;
+        }
+
+        #overlay-body {
+
+        }
+
+        .uk-card-footer {
+            background-color: #1B0942;
+            text-align: center;
+        }
+
+        .powered-by-img {
+            max-height: 50px;
+        }
+
+        .modal-chart {
+            height: 600px;
+            width: 100%;
+        }
+
+        .modal-body > :last-child {
+            margin-bottom: 0;
+        }
+
+        .uk-modal-title {
+            margin-bottom: 0;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.22/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.22/dist/js/uikit-icons.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.1.2/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uniqolor@1.0.1/dist/uniqolor.min.js"></script>
+</head>
+<body>
+<div id="map" class="map"></div>
+<div id="overlay" class="uk-card uk-card-small uk-card-hover uk-card-default uk-overflow-hidden">
+    <div class="uk-card-header">
+        <h3 class="uk-card-title"><%= name %></h3>
+    </div>
+    <div class="uk-card-body uk-overflow-auto">
+        <button class="uk-button uk-button-small uk-button-default" uk-toggle="target: #overlay-body" type="button">
+            Toggle details
+        </button>
+        <div id="overlay-body" class="uk-margin-top uk-height-large">
+            <p><%= description %></p>
+            <p>
+                <small><%= acknowledgement %></small>
+            </p>
+            <p>
+                <a class="uk-button uk-button-default" target="_blank" href="<%= homepage %>">Open website</a>
+            </p>
+        </div>
+    </div>
+    <a class="uk-card-footer" target="_blank" href="https://splashback.io">
+        <img class="uk-flex-1 powered-by-img" src="/assets/powered-by.png" alt="Powered by Splashback">
+    </a>
+</div>
+<div id="popup">
+
+</div>
+<div id="modal" class="uk-flex-top" uk-modal>
+    <div class="uk-modal-dialog uk-margin-auto-vertical uk-modal-body" uk-overflow-auto>
+        <div class="uk-flex">
+            <h2 class="uk-modal-title uk-flex-1"></h2>
+            <button class="uk-modal-close" type="button" uk-close></button>
+        </div>
+        <div class="uk-margin-auto" uk-spinner="ratio: 3"></div>
+        <div class="modal-chart"></div>
+        <div class="modal-body"></div>
+    </div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

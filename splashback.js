@@ -30,7 +30,7 @@ exports.getLatestSampleForSite = async function (siteId) {
         query ($poolId: Int!, $siteId: Int!) {
             samples(pool_id: $poolId first: 1 order: {dateTime: DESC} where: {siteId: {eq: $siteId}}) {
                 nodes {
-                    dateTime site {name location} program {name}
+                    dateTime takenBy program {name}
                     sampleVariants {
                         value type {name unit}
                         sampleValues {

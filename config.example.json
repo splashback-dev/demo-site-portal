@@ -1,0 +1,6 @@
+{
+    "name": "My App Name",
+    "homepage": "https://example.com",
+    "description": "My app description.",
+    "acknowledgement": "My data came from here and I imported using this."
+}

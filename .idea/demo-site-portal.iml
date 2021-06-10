@@ -8,5 +8,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="axios" level="application" />
+    <orderEntry type="library" name="ol" level="application" />
+    <orderEntry type="library" name="uikit" level="application" />
+    <orderEntry type="library" name="echarts" level="application" />
+    <orderEntry type="library" name="randomcolor" level="application" />
+    <orderEntry type="library" name="uniqolor" level="application" />
   </component>
 </module>
