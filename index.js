@@ -5,7 +5,7 @@ const path = require('path')
 
 const express = require('express')
 const app = express()
-const port = parseInt(process.env.APP_PORT) || 3000
+const port = process.env.PORT || process.env.APP_PORT || 3000
 
 let config = {}
 const configPath = path.join(__dirname, 'config.json')
