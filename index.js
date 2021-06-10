@@ -11,6 +11,8 @@ let config = {}
 const configPath = path.join(__dirname, 'config.json')
 if (fs.existsSync(configPath)) {
     config = require(configPath)
+} else if (process.env.APP_CONFIG) {
+    config = JSON.parse(process.env.APP_CONFIG)
 }
 config.name = config.name || 'Splashback Site Portal'
 config.homepage = config.homepage || 'https://splashback.io'
