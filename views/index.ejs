@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><%= name %></title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha256-BPfK9M5v34c2XP6p0cxVz1mUQLst0gTLk0mlc7kuodA=" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.6.22/dist/css/uikit.min.css"/>
     <style>
         html, body {
@@ -28,11 +29,8 @@
             width: calc(100% - 40px);
             max-width: 400px;
             max-height: calc(100% - 40px);
+            z-index: 999;
             text-align: end;
-        }
-
-        #overlay-body {
-
         }
 
         .uk-card-footer {
@@ -58,7 +56,8 @@
         }
     </style>
 
-    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha256-yDc0eil8GjWFKqN1OSzHSVCiuGghTosZCcRje4tj7iQ=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.22/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.6.22/dist/js/uikit-icons.min.js"></script>
@@ -81,7 +80,9 @@
                 <small><%= acknowledgement %></small>
             </p>
             <p>
-                <a class="uk-button uk-button-default" target="_blank" href="<%= homepage %>">Open website</a>
+                <a class="uk-button uk-button-small uk-button-default" target="_blank" href="<%= homepage %>">
+                    Open website
+                </a>
             </p>
         </div>
     </div>
@@ -89,16 +90,13 @@
         <img class="uk-flex-1 powered-by-img" src="/assets/powered-by.png" alt="Powered by Splashback">
     </a>
 </div>
-<div id="popup">
 
-</div>
 <div id="modal" class="uk-flex-top" uk-modal>
     <div class="uk-modal-dialog uk-margin-auto-vertical uk-modal-body" uk-overflow-auto>
         <div class="uk-flex">
             <h2 class="uk-modal-title uk-flex-1"></h2>
             <button class="uk-modal-close" type="button" uk-close></button>
         </div>
-        <div class="uk-margin-auto" uk-spinner="ratio: 3"></div>
         <div class="modal-chart"></div>
         <div class="modal-body"></div>
     </div>

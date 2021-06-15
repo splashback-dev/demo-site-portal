@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node index.js"
   },
-  "author": "",
-  "license": "UNLICENSED",
+  "author": "Splashback <tech@splashback.io>",
+  "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
     "ejs": "^3.1.6",

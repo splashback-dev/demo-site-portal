@@ -13,62 +13,28 @@ function autoToggleDetails() {
 window.addEventListener('resize', autoToggleDetails);
 autoToggleDetails();
 
-// Setup OpenLayers Map
-const map = new ol.Map({
-    target: 'map',
-    layers: [
-        new ol.layer.Tile({
-            source: new ol.source.OSM()
-        })
-    ],
-    view: new ol.View({
-        center: ol.proj.fromLonLat([135.2076439, -27.7241231]),
-        zoom: 5
-    })
-});
+// Setup map
+const map = L.map('map').setView([-27.7241231, 135.2076439], 4);
+L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Powered by Esri. Source: Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AeroGRID, IGN, and the GIS User Community.'
+}).addTo(map);
 
-// Query sites and place on OpenLayers Layer
+// Query sites and place on map
 axios.get('/api/sites').then(response => {
     const sites = response.data;
-
-    const layer = new ol.layer.Vector({
-        source: new ol.source.Vector({
-            features: sites.map((site) => {
-                const feature = new ol.Feature({
-                    geometry: new ol.geom.Point(ol.proj.fromLonLat([site.longitude, site.latitude]))
-                });
-                feature.setStyle(new ol.style.Style({
-                    image: new ol.style.Circle({
-                        fill: new ol.style.Fill({
-                            color: '#FFCE5C'
-                        }),
-                        stroke: new ol.style.Stroke({
-                            color: '#1B0942',
-                            width: 6
-                        }),
-                        radius: 12
-                    }),
-                }));
-                feature.setId(site.id);
-                feature.setProperties(site);
-                return feature;
-            })
-        })
+    const icon = L.icon({
+        iconUrl: '/assets/map-marker.svg',
+        iconSize: L.point(32, 32)
     });
-    map.addLayer(layer);
-});
 
-// Popup showing
-const popup = new ol.Overlay({
-    element: document.getElementById('popup'),
-});
-map.addOverlay(popup);
-map.on('pointermove', function (event) {
-    if (map.hasFeatureAtPixel(event.pixel) === true) {
-        const feature = map.getFeaturesAtPixel(event.pixel)[0];
-
-    } else {
-
+    for (let site of sites) {
+        L.marker([site.latitude, site.longitude], {
+            icon: icon,
+            title: site.name,
+            alt: site.name,
+        }).addTo(map).on('click', event => {
+            showModal(site);
+        });
     }
 });
 
@@ -98,6 +64,7 @@ async function showModal(site) {
         .filter((v, i, s) => s.indexOf(v) === i);
 
     modalBody.innerHTML = `
+    <small>Tip: Click the legend markers to toggle it on the graph.</small>
     <table class="uk-table uk-table-divider">
         <thead><tr>
             <th>Metadata</th>
@@ -149,20 +116,12 @@ async function showModal(site) {
             inverse: true
         },
         series: dataByParameters.map((data, idx) => ({
+            type: 'line',
             data,
             name: parameters[idx],
             itemStyle: {color: parameterColours[idx]},
-            type: 'line',
+            smooth: false,
             xAxisIndex: idx
         }))
     });
 }
-
-map.on('singleclick', function (event) {
-    if (map.hasFeatureAtPixel(event.pixel) === true) {
-        const feature = map.getFeaturesAtPixel(event.pixel)[0];
-        showModal(feature.getProperties());
-    } else {
-        modal.hide();
-    }
-});
