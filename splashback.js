@@ -25,10 +25,10 @@ exports.getSites = async function () {
 }
 
 exports.getLatestSampleForSite = async function (siteId) {
-    const response = (await post('/data/graphql', {
+    const response = (await post('/graphql', {
         query: `
-        query ($poolId: Int!, $siteId: Int!) {
-            samples(pool_id: $poolId first: 1 order: {dateTime: DESC} where: {siteId: {eq: $siteId}}) {
+        query ($poolId: UUID! $siteId: Int!) {
+            samples(poolId: $poolId first: 1 order: {dateTime: DESC} where: {siteId: {eq: $siteId}}) {
                 nodes {
                     dateTime takenBy program {name}
                     sampleVariants {
@@ -42,8 +42,7 @@ exports.getLatestSampleForSite = async function (siteId) {
             }
         }`,
         variables: {
-            poolId: parseInt(poolId),
-            siteId: parseInt(siteId)
+            poolId, siteId: parseInt(siteId)
         }
     })).data
     const samples = response.data.samples.nodes
